@@ -1,0 +1,453 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  VISITOR
+  BUYER
+  SELLER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  PAUSED
+  SOLD
+  REJECTED
+  ARCHIVED
+}
+
+enum ListingType {
+  FIXED_PRICE
+  AUCTION
+  OFFER
+}
+
+enum BidStatus {
+  ACTIVE
+  OUTBID
+  WINNING
+  RETRACTED
+  EXPIRED
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+  WITHDRAWN
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+enum AiJobStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum SellerApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CreditLedgerKind {
+  CREDIT
+  DEBIT
+  HOLD
+  RELEASE
+  PAYOUT
+}
+
+enum CreditLedgerStatus {
+  PENDING
+  POSTED
+  VOIDED
+}
+
+model User {
+  id              String                    @id @default(uuid())
+  clerkId         String?                   @unique
+  email           String                    @unique
+  displayName     String
+  handle          String                    @unique
+  passwordHash    String?
+  role            UserRole                  @default(BUYER)
+  status          UserStatus                @default(ACTIVE)
+  avatarUrl       String?
+  sellerRatingAverage Float?
+  sellerReviewCount Int @default(0)
+  sellerResponseMinutes Int?
+  sellerResponseSampleCount Int @default(0)
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  listings        Listing[]                 @relation("SellerListings")
+  bids            Bid[]
+  offers          Offer[]
+  watchlistItems  WatchlistItem[]
+  sentMessages    Message[]                 @relation("MessagesSent")
+  reports         Report[]                  @relation("ReportsSubmitted")
+  moderation      ModerationAction[]        @relation("ModerationReviewer")
+  aiJobs          AiJob[]
+  loyaltyEvents   LoyaltyEvent[]
+  creditLedger    CreditLedgerEntry[]
+  buildConfigurations BuildConfiguration[]
+  repairSessions  RepairSession[]
+  auditLogs       AuditLog[]                @relation("AuditActor")
+  participants    ConversationParticipant[]
+  sellerApplications SellerApplication[]
+  notifications   Notification[]
+  authSessions    AuthSession[]
+  reviewsWritten  SellerReview[]            @relation("BuyerReviews")
+  reviewsReceived SellerReview[]            @relation("SellerReviews")
+}
+
+model AuthSession {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+  @@index([expiresAt])
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String
+  title     String
+  body      String
+  linkUrl   String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([userId, readAt])
+}
+
+model HobbyCategory {
+  id          String          @id @default(uuid())
+  slug        String          @unique
+  name        String
+  parentId    String?
+  parent      HobbyCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    HobbyCategory[] @relation("CategoryTree")
+  description String?
+  attributes  Json            @default("{}")
+  active      Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  listings    Listing[]
+  pricingComparables PricingComparable[]
+}
+
+model Listing {
+  id             String             @id @default(uuid())
+  sellerId       String
+  seller         User               @relation("SellerListings", fields: [sellerId], references: [id])
+  categoryId     String
+  category       HobbyCategory      @relation(fields: [categoryId], references: [id])
+  slug           String             @unique
+  title          String
+  description    String
+  condition      String
+  listingType    ListingType        @default(FIXED_PRICE)
+  status         ListingStatus      @default(DRAFT)
+  priceCents     Int
+  reserveCents   Int?
+  buyNowCents    Int?
+  currency       String             @default("USD")
+  location       String
+  attributes     Json               @default("{}")
+  publishedAt    DateTime?
+  endsAt         DateTime?
+  deletedAt      DateTime?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  media          ListingMedia[]
+  bids           Bid[]
+  offers         Offer[]
+  watchlists     WatchlistItem[]
+  reports        Report[]
+  moderation     ModerationAction[]
+  reviews        SellerReview[]
+}
+
+model ListingMedia {
+  id        String   @id @default(uuid())
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String
+  kind      String   @default("image")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Bid {
+  id          String    @id @default(uuid())
+  listingId   String
+  listing     Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bidderId    String
+  bidder      User      @relation(fields: [bidderId], references: [id])
+  amountCents Int
+  status      BidStatus @default(ACTIVE)
+  createdAt   DateTime  @default(now())
+
+  @@index([listingId, amountCents])
+}
+
+model Offer {
+  id          String      @id @default(uuid())
+  listingId   String
+  listing     Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyerId     String
+  buyer       User        @relation(fields: [buyerId], references: [id])
+  amountCents Int
+  message     String?
+  status      OfferStatus @default(PENDING)
+  expiresAt   DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model SellerReview {
+  id        String   @id @default(uuid())
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyerId   String
+  buyer     User     @relation("BuyerReviews", fields: [buyerId], references: [id], onDelete: Cascade)
+  sellerId  String
+  seller    User     @relation("SellerReviews", fields: [sellerId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([buyerId, listingId])
+  @@index([sellerId, createdAt])
+}
+
+model WatchlistItem {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+}
+
+model Conversation {
+  id           String                    @id @default(uuid())
+  listingId    String?
+  subject      String
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReadAt     DateTime?
+
+  @@unique([conversationId, userId])
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("MessagesSent", fields: [senderId], references: [id])
+  body           String
+  createdAt      DateTime     @default(now())
+}
+
+model Report {
+  id          String       @id @default(uuid())
+  listingId   String
+  listing     Listing      @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  reporterId  String
+  reporter    User         @relation("ReportsSubmitted", fields: [reporterId], references: [id])
+  reason      String
+  details     String?
+  status      ReportStatus @default(OPEN)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model ModerationAction {
+  id         String   @id @default(uuid())
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  reviewerId String
+  reviewer   User     @relation("ModerationReviewer", fields: [reviewerId], references: [id])
+  action     String
+  notes      String?
+  createdAt  DateTime @default(now())
+}
+
+model AiJob {
+  id             String      @id @default(uuid())
+  userId         String?
+  user           User?       @relation(fields: [userId], references: [id])
+  feature        String
+  provider       String
+  model          String
+  prompt         String
+  status         AiJobStatus @default(QUEUED)
+  result         Json?
+  error          String?
+  estimatedTokens Int?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model LoyaltyEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  points    Int
+  reason    String
+  rewardKey String?  @unique
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model CreditLedgerEntry {
+  id          String             @id @default(uuid())
+  userId      String
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Int
+  kind        CreditLedgerKind
+  status      CreditLedgerStatus @default(POSTED)
+  reason      String
+  rewardKey   String?            @unique
+  metadata    Json               @default("{}")
+  createdAt   DateTime           @default(now())
+
+  @@index([userId, createdAt])
+  @@index([status, kind])
+}
+
+model BuildConfiguration {
+  id                 String      @id @default(uuid())
+  ownerId            String?
+  owner              User?       @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  title              String
+  vehicleType        String
+  dryWeightGrams     Int
+  estimatedCostCents Int
+  thrustRatio        String
+  riskLevel          String
+  note               String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  parts              BuildPart[]
+
+  @@index([ownerId, updatedAt])
+}
+
+model BuildPart {
+  id          String             @id @default(uuid())
+  buildId     String
+  build       BuildConfiguration @relation(fields: [buildId], references: [id], onDelete: Cascade)
+  slot        String
+  selected    String
+  status      String
+  sortOrder   Int                @default(0)
+
+  @@index([buildId, sortOrder])
+}
+
+model RepairSession {
+  id          String   @id @default(uuid())
+  ownerId     String?
+  owner       User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  title       String
+  vehicleType String
+  lastSummary String
+  issueNotes  String
+  advisorNote String
+  checklist   Json     @default("[]")
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId, updatedAt])
+}
+
+model PricingComparable {
+  id             String        @id @default(uuid())
+  categoryId     String
+  category       HobbyCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title          String
+  condition      String
+  soldPriceCents Int
+  soldAt         DateTime
+  attributes     Json          @default("{}")
+  createdAt      DateTime      @default(now())
+
+  @@index([categoryId, soldAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?
+  actor     User?    @relation("AuditActor", fields: [actorId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+}
+
+model SellerApplication {
+  id            String                  @id @default(uuid())
+  applicantId   String
+  applicant     User                    @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  businessName  String
+  categoryFocus String
+  experience    String
+  status        SellerApplicationStatus @default(PENDING)
+  reviewedById  String?
+  reviewedAt    DateTime?
+  notes         String?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  @@index([status, createdAt])
+}

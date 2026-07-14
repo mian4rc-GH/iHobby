@@ -1,0 +1,10 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Direct drive smart bike trainer">
+  <rect width="960" height="720" fill="#f2f6f8"/>
+  <circle cx="450" cy="395" r="145" fill="#fff" stroke="#15171c" stroke-width="18"/>
+  <circle cx="450" cy="395" r="74" fill="#d6e5e0" stroke="#15171c" stroke-width="14"/>
+  <path d="M290 535h420" stroke="#15171c" stroke-width="22" stroke-linecap="round"/>
+  <path d="M450 250 650 535M450 250 285 535" stroke="#15171c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M620 245h120" stroke="#c2410c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M550 290c35-52 82-74 143-70" stroke="#0e6b5e" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="450" cy="395" r="24" fill="#c2410c"/>
+</svg>

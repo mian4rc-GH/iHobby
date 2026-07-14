@@ -1,0 +1,10 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Electric guitar">
+  <rect width="960" height="720" fill="#fff5ed"/>
+  <path d="M565 145h245v66H565z" fill="#15171c"/>
+  <path d="M252 518c-86-34-92-150-14-190 49-25 95-9 128 30 18-67 74-108 141-84 83 30 93 135 20 200-88 79-200 88-275 44z" fill="#f3d4bf" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M470 320 645 178" stroke="#15171c" stroke-width="26" stroke-linecap="round"/>
+  <path d="M492 360 745 186" stroke="#15171c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M450 410c31 32 84 30 113-4" stroke="#c2410c" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="333" cy="429" r="36" fill="#fff" stroke="#15171c" stroke-width="14"/>
+  <path d="M622 160v92M694 160v92M766 160v92" stroke="#c2410c" stroke-width="10" stroke-linecap="round"/>
+</svg>

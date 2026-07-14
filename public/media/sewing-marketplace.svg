@@ -1,0 +1,10 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Industrial sewing machine">
+  <rect width="960" height="720" fill="#f3f7f4"/>
+  <path d="M205 465h550v72H205z" fill="#15171c"/>
+  <path d="M255 250h285c108 0 178 66 178 168v47H255z" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M610 313h72v152h-72z" fill="#d9e8e3" stroke="#15171c" stroke-width="16"/>
+  <circle cx="347" cy="338" r="55" fill="#f4d5c1" stroke="#15171c" stroke-width="16"/>
+  <path d="M347 282v110" stroke="#c2410c" stroke-width="12" stroke-linecap="round"/>
+  <path d="M616 536v90M705 536v90M292 536v90" stroke="#15171c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M660 466v92" stroke="#c2410c" stroke-width="12" stroke-linecap="round"/>
+</svg>

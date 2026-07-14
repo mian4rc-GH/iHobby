@@ -1,0 +1,20 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Camera drone kit">
+  <rect width="960" height="720" fill="#eef5f2"/>
+  <circle cx="255" cy="210" r="92" fill="#d5e8e1"/>
+  <circle cx="705" cy="210" r="92" fill="#d5e8e1"/>
+  <circle cx="255" cy="510" r="92" fill="#d5e8e1"/>
+  <circle cx="705" cy="510" r="92" fill="#d5e8e1"/>
+  <g fill="none" stroke="#10231f" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="380" y="290" width="200" height="140" rx="24" fill="#fff"/>
+    <path d="M380 315 295 245"/>
+    <path d="M580 315 665 245"/>
+    <path d="M380 405 295 475"/>
+    <path d="M580 405 665 475"/>
+    <circle cx="255" cy="210" r="54"/>
+    <circle cx="705" cy="210" r="54"/>
+    <circle cx="255" cy="510" r="54"/>
+    <circle cx="705" cy="510" r="54"/>
+    <rect x="438" y="338" width="84" height="58" rx="14" fill="#f6d6c3"/>
+  </g>
+  <path d="M430 493h160" stroke="#c2410c" stroke-width="18" stroke-linecap="round"/>
+</svg>

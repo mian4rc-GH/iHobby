@@ -1,0 +1,12 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC helicopter airframe">
+  <rect width="960" height="720" fill="#f3ede1"/>
+  <path d="M90 310h780" stroke="#15171c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M480 150v170" stroke="#15171c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M390 390h300c78 0 132 45 132 92 0 36-32 58-92 58H392c-96 0-166-55-166-116 0-24 14-34 44-34h120Z" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M652 401 830 318l38 20-138 112" fill="none" stroke="#15171c" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="885" cy="318" r="38" fill="#cde7e1" stroke="#15171c" stroke-width="14"/>
+  <path d="M322 535h350" stroke="#15171c" stroke-width="16" stroke-linecap="round"/>
+  <path d="M360 500v35M634 500v35" stroke="#15171c" stroke-width="14" stroke-linecap="round"/>
+  <path d="M308 398c32 46 90 76 172 76 80 0 142-28 188-80" fill="none" stroke="#c2410c" stroke-width="18" stroke-linecap="round"/>
+  <rect x="412" y="340" width="112" height="54" rx="18" fill="#fde2cf" stroke="#15171c" stroke-width="14"/>
+</svg>

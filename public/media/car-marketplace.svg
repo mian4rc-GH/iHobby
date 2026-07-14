@@ -1,0 +1,12 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC crawler car">
+  <rect width="960" height="720" fill="#f3ede1"/>
+  <path d="M184 390h72l70-98c20-28 52-44 86-44h170c42 0 80 22 102 58l52 84h40c48 0 86 38 86 86v42H98v-42c0-48 38-86 86-86Z" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M356 288h104v102H282l54-76c6-16 12-26 20-26Z" fill="#cde7e1" stroke="#15171c" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M484 288h98c24 0 45 13 58 33l43 69H484V288Z" fill="#cde7e1" stroke="#15171c" stroke-width="14" stroke-linejoin="round"/>
+  <circle cx="260" cy="518" r="76" fill="#15171c"/>
+  <circle cx="260" cy="518" r="36" fill="#ebe3d2" stroke="#fff" stroke-width="12"/>
+  <circle cx="704" cy="518" r="76" fill="#15171c"/>
+  <circle cx="704" cy="518" r="36" fill="#ebe3d2" stroke="#fff" stroke-width="12"/>
+  <path d="M144 430h116M700 430h124" stroke="#c2410c" stroke-width="18" stroke-linecap="round"/>
+  <path d="M386 458h188" stroke="#15171c" stroke-width="16" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="960" height="720" viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC warbird plane">
+  <rect width="960" height="720" fill="#eef5f2"/>
+  <path d="M138 378 458 250c42-18 88-18 130 0l240 102c42 18 42 78 0 96L588 550c-42 18-88 18-130 0L138 422c-23-9-23-35 0-44Z" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M445 280 282 152c-22-17-54-2-54 26v110" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M548 286 712 152c22-18 56-2 56 27v116" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M436 520 315 612c-22 17-54 1-54-27v-78" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M564 520 684 612c22 17 54 1 54-27v-78" fill="#fff" stroke="#15171c" stroke-width="18" stroke-linejoin="round"/>
+  <circle cx="486" cy="398" r="48" fill="#fde2cf" stroke="#15171c" stroke-width="14"/>
+  <path d="M686 388h178" stroke="#c2410c" stroke-width="20" stroke-linecap="round"/>
+  <path d="M854 330v116" stroke="#c2410c" stroke-width="14" stroke-linecap="round"/>
+  <path d="M188 398h584" stroke="#15171c" stroke-width="12" stroke-linecap="round" opacity=".18"/>
+</svg>
