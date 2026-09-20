@@ -1,6 +1,7 @@
 import {
   BarChart3,
   Bell,
+  Bot,
   Boxes,
   ClipboardCheck,
   Gavel,
@@ -11,6 +12,7 @@ import {
   Search,
   ShieldCheck,
   Tag,
+  Upload,
   Users,
   Wrench
 } from "lucide-react";
@@ -62,6 +64,7 @@ function navGroupsFor(role: Role, scope: RcScopeWithCounts, counts: NavigationCo
       {
         label: "Tools",
         items: [
+          { href: "/tools/agent", label: "Marketplace Agent", icon: Bot },
           { href: "/tools/build", label: "Build & Configure", icon: Wrench },
           { href: "/tools/repair", label: "Repair Advisor", icon: ShieldCheck },
           { href: "/tools/pricing", label: "Pricing engine", icon: Tag }
@@ -86,6 +89,7 @@ function navGroupsFor(role: Role, scope: RcScopeWithCounts, counts: NavigationCo
         items: [
           { href: "/dashboard/admin", label: "Admin dashboard", icon: ShieldCheck },
           { href: "/admin/listings", label: "Moderation queue", icon: ClipboardCheck, count: String(counts.pendingListings) },
+          { href: "/admin/bulk-upload", label: "Bulk upload", icon: Upload },
           { href: "/admin/reports", label: "Trust reports", icon: ShieldCheck, count: String(counts.openReports) },
           { href: "/admin/seller-applications", label: "Seller approvals", icon: ClipboardCheck, count: String(counts.sellerApplications) },
           { href: "/offers", label: "Offers", icon: Tag, count: String(counts.pendingOffers) },
@@ -106,6 +110,7 @@ function navGroupsFor(role: Role, scope: RcScopeWithCounts, counts: NavigationCo
       {
         label: "Tools",
         items: [
+          { href: "/tools/agent", label: "Marketplace Agent", icon: Bot },
           { href: "/tools/build", label: "Build & Configure", icon: Wrench },
           { href: "/tools/repair", label: "Repair Advisor", icon: ShieldCheck },
           { href: "/tools/pricing", label: "Pricing engine", icon: Tag }
@@ -135,6 +140,7 @@ function navGroupsFor(role: Role, scope: RcScopeWithCounts, counts: NavigationCo
       {
         label: "Workshop",
         items: [
+          { href: "/tools/agent", label: "Marketplace Agent", icon: Bot },
           { href: "/tools/build", label: "Build & Configure", icon: Wrench },
           { href: "/tools/repair", label: "Repair Advisor", icon: ShieldCheck },
           { href: "/tools/pricing", label: "Pricing Engine", icon: Tag },

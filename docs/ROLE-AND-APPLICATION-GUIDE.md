@@ -265,6 +265,8 @@ The email service uses SMTP whenever `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMT
 
 AI tools use mock guidance when no AI provider is configured. DeepSeek, Groq, and Hugging Face are supported through environment variables. The local environment uses Groq for live AI pricing and repair guidance; the pricing screen also recalculates its displayed comparable-sale range from persisted market data after each estimate.
 
+The Marketplace Agent at `/tools/agent` uses a bounded plan-act-observe loop. Given a member goal, the model selects from approved read-only tools, inspects each observation, adapts the next step, and produces an outcome. Agent runs and their tool trace are persisted in `AiJob` for accountability. The agent can search marketplace inventory, inspect listing details, calculate pricing guidance, and read role-scoped account activity. It cannot autonomously bid, offer, message, alter listings, or perform admin mutations.
+
 ## Marketplace Tools
 
 The build planner saves each member's latest configuration, including entered parts, measurements, cost, and calculated specification checks. It evaluates the supplied core parts, battery cell count, ESC voltage range, motor ratings, frame size, and thrust ratio; absent or insufficient specifications are marked for review rather than assumed compatible. Saving a build writes an audit record.

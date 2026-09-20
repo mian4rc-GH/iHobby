@@ -40,7 +40,7 @@ export async function completeAiText(request: AiCompletionRequest): Promise<AiCo
   if (provider === "groq") {
     return completeWithOpenAiCompatibleApi({
       provider,
-      model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
+      model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
       url: "https://api.groq.com/openai/v1/chat/completions",
       apiKey: process.env.GROQ_API_KEY,
       request
@@ -132,6 +132,13 @@ function configuredTimeoutMs() {
 }
 
 function mockCompletion(request: AiCompletionRequest) {
+  if (request.feature === "agent" || request.feature === "agent-final") {
+    return JSON.stringify({
+      type: "final",
+      answer: "The local AI fallback cannot choose live tools. The agent will use its deterministic marketplace planner for this run."
+    });
+  }
+
   if (request.feature === "pricing") {
     return [
       "Estimated market range: 8-12% below the clean retail benchmark.",

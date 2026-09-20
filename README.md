@@ -28,6 +28,7 @@ Implemented and database-backed:
 - Admin-only readiness health report at `/api/health/readiness`.
 - HTTP workflow smoke runner for public, buyer, seller, admin, and API checks.
 - AI provider abstraction with mock, Groq, DeepSeek, and Hugging Face modes.
+- Bounded agentic marketplace assistant with plan-act-observe tool use and persisted `AiJob` audit history.
 
 Still intentionally out of scope until a payment provider is chosen:
 
@@ -354,8 +355,11 @@ Current AI API routes:
 
 - `POST /api/ai/listing-assistant`
 - `POST /api/ai/pricing`
+- `POST /api/ai/agent`
 
-Both routes validate input with Zod, enforce `ai:use`, and rate-limit by actor ID.
+All routes validate input with Zod, enforce `ai:use`, and rate-limit by actor ID.
+
+The marketplace agent at `/tools/agent` accepts a member goal and runs a bounded multi-step loop. It can search active inventory, inspect listing details, calculate persisted pricing guidance, and read the signed-in member's role-scoped marketplace activity. Each tool observation is shown to the member and the completed run is stored in `AiJob`. The initial tool set is read-only; bids, offers, messages, listing changes, and moderation remain explicit user actions.
 
 ## Validation
 
