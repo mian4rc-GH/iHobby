@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Plus,
   Search,
+  Settings,
   ShieldCheck,
   Tag,
   Upload,
@@ -94,6 +95,7 @@ function navGroupsFor(role: Role, scope: RcScopeWithCounts, counts: NavigationCo
           { href: "/admin/seller-applications", label: "Seller approvals", icon: ClipboardCheck, count: String(counts.sellerApplications) },
           { href: "/offers", label: "Offers", icon: Tag, count: String(counts.pendingOffers) },
           { href: "/admin/users", label: "Users", icon: Users },
+          { href: "/admin/settings", label: "Settings", icon: Settings },
           { href: "/admin/categories", label: "RC taxonomy", icon: Wrench },
           { href: "/admin/audit", label: "Audit log", icon: BarChart3 },
           { href: "/messages", label: "Messages", icon: MessageSquare, count: String(counts.messages) }

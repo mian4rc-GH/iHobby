@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { completeAiText, type AiCompletionResult } from "@/lib/ai/providers";
+import { DEFAULT_APPLICATION_CURRENCY } from "@/lib/currency";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/rbac";
 import {
@@ -309,7 +310,7 @@ async function executeAgentTool(actor: Actor, tool: AgentToolName, input: Record
     const category = stringInput(input.category) || "drones";
     const targetPriceCents = Math.round(numberInput(input.targetPriceCents) ?? 0);
     if (targetPriceCents <= 0) throw new Error("A positive target price is required.");
-    return getPricingGuidanceForInput(category, targetPriceCents);
+    return getPricingGuidanceForInput(category, targetPriceCents, stringInput(input.title), stringInput(input.condition));
   }
 
   const [bids, offers, watchlist] = await Promise.all([
@@ -405,10 +406,10 @@ function buildFallbackAnswer(goal: string, steps: AgentStep[]) {
 
   const listing = asRecord(asRecord(detailStep?.observation)?.listing) ?? firstSearchResult(searchStep?.observation);
   if (!listing) return `I searched the current marketplace for “${goal}” but found no matching active inventory. Try a broader vehicle family, fewer keywords, or a higher budget.`;
-  const price = typeof listing.priceCents === "number" ? formatAgentMoney(listing.priceCents, String(listing.currency ?? "USD")) : "an unlisted price";
+  const price = typeof listing.priceCents === "number" ? formatAgentMoney(listing.priceCents, String(listing.currency ?? DEFAULT_APPLICATION_CURRENCY)) : "an unlisted price";
   const pricing = asRecord(pricingStep?.observation);
   const recommended = asRecord(pricing?.guidance)?.recommendedCents;
-  const guidance = typeof recommended === "number" ? ` Persisted market guidance recommends about ${formatAgentMoney(recommended, String(listing.currency ?? "USD"))}.` : "";
+  const guidance = typeof recommended === "number" ? ` Persisted market guidance recommends about ${formatAgentMoney(recommended, String(listing.currency ?? DEFAULT_APPLICATION_CURRENCY))}.` : "";
   return `I searched current inventory and inspected “${String(listing.title)}” at ${price}. It is listed in ${String(listing.condition ?? "unspecified")} condition by ${String(listing.seller ?? "the seller")}.${guidance} Open /listings/${String(listing.slug)} to review the full listing before bidding or making an offer.`;
 }
 

@@ -21,6 +21,8 @@ const envKeys = [
   "SMTP_PASS",
   "SMTP_FROM",
   "AI_PROVIDER",
+  "GEMINI_API_KEY",
+  "GROQ_API_KEY",
   "DEEPSEEK_API_KEY",
   "HUGGINGFACE_API_KEY"
 ] as const;
@@ -91,6 +93,19 @@ describe("readiness report", () => {
       expect.stringContaining("Email delivery"),
       expect.stringContaining("AI provider")
     ]));
+  });
+
+  it("recognizes Gemini as a configured AI provider", async () => {
+    vi.mocked(getDatabaseHealth).mockResolvedValue({ connected: true, label: "DB live", listingCount: 9 });
+    process.env.AI_PROVIDER = "gemini";
+    process.env.GEMINI_API_KEY = "gemini-key";
+
+    const report = await getReadinessReport(new Date("2026-09-23T00:00:00.000Z"));
+
+    expect(report.checks.find((check) => check.id === "ai")).toMatchObject({
+      status: "pass",
+      detail: expect.stringContaining("pricing uses Gemini with Groq fallback")
+    });
   });
 
   it("fails readiness when PostgreSQL is unavailable", async () => {
